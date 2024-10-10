@@ -2,80 +2,80 @@
 #include <stdlib.h>
 #include <string.h>
 
-// ®Ñ¥»µ²ºcÅé¡A¥Î¨Ó¦sÀx®Ñ¥»ªº°ò¥»«H®§
+// æ›¸æœ¬çµæ§‹é«”ï¼Œç”¨ä¾†å­˜å„²æ›¸æœ¬çš„åŸºæœ¬è¨Šæ¯
 typedef struct {
-    char name[20];     // ®Ñ¥»¦WºÙ
-    float price;       // ®Ñ¥»»ù®æ
-    int quantity;      // ®Ñ¥»¼Æ¶q¡]®w¦s¡^
+    char name[20];     // æ›¸æœ¬åç¨±
+    float price;       // æ›¸æœ¬åƒ¹æ ¼
+    int quantity;      // æ›¸æœ¬æ•¸é‡ï¼ˆåº«å­˜ï¼‰
 } Book;
 
-// ¸`ÂIµ²ºcÅé¡A¥Î¨Óºc«ØÃìªí
+// ç¯€é»çµæ§‹é«”ï¼Œç”¨ä¾†æ§‹å»ºéˆè¡¨
 typedef struct Node {
-    Book data;         // ®Ñ¥»¼Æ¾Ú
-    struct Node* next; // «ü¦V¤U¤@­Ó¸`ÂIªº«ü°w
+    Book data;         // æ›¸æœ¬æ•¸æ“š
+    struct Node* next; // æŒ‡å‘ä¸‹ä¸€å€‹ç¯€é»çš„æŒ‡é‡
 } Node;
 
-// ³Ğ«ØÃìªíªºÀY¸`ÂI
+// å‰µå»ºéˆè¡¨çš„é ­ç¯€é»
 Node* createHeadNode() {
     Node* headNode = (Node*)malloc(sizeof(Node));
     if (!headNode) {
-        perror("µLªk¤À°tÀY¸`ÂIªº¤º¦s");
+        perror("ç„¡æ³•åˆ†é…é ­ç¯€é»çš„å…§å­˜");
         exit(EXIT_FAILURE);
     }
-    headNode->next = NULL; // ªì©l¤ÆÀY¸`ÂIªº next «ü°w¬°ªÅ
+    headNode->next = NULL; // åˆå§‹åŒ–é ­ç¯€é»çš„ next æŒ‡é‡ç‚ºç©º
     return headNode;
 }
 
-// ³Ğ«Ø¤@­Ó·sªº¸`ÂI¡A¨Ã¦sÀx®Ñ¥»«H®§
+// å‰µå»ºä¸€å€‹æ–°çš„ç¯€é»ï¼Œä¸¦å­˜å„²æ›¸æœ¬è¨Šæ¯
 Node* createNode(Book data) {
     Node* newNode = (Node*)malloc(sizeof(Node));
     if (!newNode) {
-        perror("µLªk¤À°t·s¸`ÂIªº¤º¦s");
+        perror("ç„¡æ³•åˆ†é…æ–°ç¯€é»çš„å…§å­˜");
         exit(EXIT_FAILURE);
     }
-    newNode->data = data;  // ±N®Ñ¥»¼Æ¾Ú¦s¤J·s¸`ÂI
-    newNode->next = NULL;  // ±N next «ü°w³]¬°ªÅ
+    newNode->data = data;  // å°‡æ›¸æœ¬æ•¸æ“šå­˜å…¥æ–°ç¯€é»
+    newNode->next = NULL;  // å°‡ next æŒ‡é‡è¨­ç‚ºç©º
     return newNode;
 }
 
-// ¨Ï¥ÎÀY´¡ªk±N·s®Ñ¥»´¡¤JÃìªí
+// ä½¿ç”¨é ­æ’æ³•å°‡æ–°æ›¸æœ¬æ’å…¥éˆè¡¨
 void insertNodeByHead(Node* headNode, Book data) {
-    Node* newNode = createNode(data); // ³Ğ«Ø·s¸`ÂI
-    newNode->next = headNode->next;   // ±N·s¸`ÂIªº next «ü¦VÀY¸`ÂIªº¤U¤@­Ó¸`ÂI
-    headNode->next = newNode;         // ±NÀY¸`ÂIªº next «ü¦V·s¸`ÂI
+    Node* newNode = createNode(data); // å‰µå»ºæ–°ç¯€é»
+    newNode->next = headNode->next;   // å°‡æ–°ç¯€é»çš„ next æŒ‡å‘é ­ç¯€é»çš„ä¸‹ä¸€å€‹ç¯€é»
+    headNode->next = newNode;         // å°‡é ­ç¯€é»çš„ next æŒ‡å‘æ–°ç¯€é»
 }
 
-// ®Ú¾Ú®Ñ¦W§R°£¸`ÂI
+// æ ¹æ“šæ›¸ååˆªé™¤ç¯€é»
 void deleteNodeByName(Node* headNode, const char* bookName) {
     Node* previousNode = headNode;
     Node* currentNode = headNode->next;
 
-    // ¹M¾úÃìªí¬d§ä»İ­n§R°£ªº®Ñ¥»¸`ÂI
+    // éæ­·éˆè¡¨æŸ¥æ‰¾éœ€è¦åˆªé™¤çš„æ›¸æœ¬ç¯€é»
     while (currentNode != NULL && strcmp(currentNode->data.name, bookName) != 0) {
         previousNode = currentNode;
         currentNode = currentNode->next;
     }
 
     if (currentNode == NULL) {
-        printf("\n>> ®Ñ¥»¥¼§ä¨ì\n\n");
+        printf("\n>> æ›¸æœ¬æœªæ‰¾åˆ°\n\n");
         return;
     }
 
-    // §ä¨ì«á¡A±N¸`ÂI±qÃìªí¤¤²¾°£¨ÃÄÀ©ñ¤º¦s
+    // æ‰¾åˆ°å¾Œï¼Œå°‡ç¯€é»å¾éˆè¡¨ä¸­ç§»é™¤ä¸¦é‡‹æ”¾å…§å­˜
     previousNode->next = currentNode->next;
     free(currentNode);
-    printf("\n>> ®Ñ¥»¤w§R°£\n\n");
+    printf("\n>> æ›¸æœ¬å·²åˆªé™¤\n\n");
 }
 
-// ¥´¦LÃìªí¤¤©Ò¦³®Ñ¥»«H®§
+// æ‰“å°éˆè¡¨ä¸­æ‰€æœ‰æ›¸æœ¬è¨Šæ¯
 void printBookList(Node* headNode) {
     Node* currentNode = headNode->next;
     if (!currentNode) {
-        printf(">> µL®ÑÄy«H®§\n");
+        printf(">> ç„¡æ›¸ç±è¨Šæ¯\n");
         return;
     }
 
-    printf("®Ñ¦W\t»ù®æ\t¼Æ¶q\n");
+    printf("æ›¸å\tåƒ¹æ ¼\tæ•¸é‡\n");
     while (currentNode) {
         printf("%s\t%.1f\t%d\n", currentNode->data.name, currentNode->data.price, currentNode->data.quantity);
         currentNode = currentNode->next;
@@ -83,14 +83,14 @@ void printBookList(Node* headNode) {
     printf("\n");
 }
 
-// ¨Ï¥Î«_ªw±Æ§Ç«ö»ù®æ¹ï®Ñ¥»¦Cªí¶i¦æ±Æ§Ç
+// ä½¿ç”¨å†’æ³¡æ’åºæŒ‰åƒ¹æ ¼å°æ›¸æœ¬åˆ—è¡¨é€²è¡Œæ’åº
 void bubbleSortBookList(Node* headNode) {
     if (headNode->next == NULL) return;
 
     Node* p;
     Node* q;
 
-    // «_ªw±Æ§Çºâªk
+    // å†’æ³¡æ’åºç®—æ³•
     for (p = headNode->next; p != NULL; p = p->next) {
         for (q = headNode->next; q->next != NULL; q = q->next) {
             if (q->data.price > q->next->data.price) {
@@ -101,11 +101,11 @@ void bubbleSortBookList(Node* headNode) {
         }
     }
 
-    // ±Æ§Ç§¹¦¨«á¥´¦L®Ñ¥»¦Cªí
+    // æ’åºå®Œæˆå¾Œæ‰“å°æ›¸æœ¬åˆ—è¡¨
     printBookList(headNode);
 }
 
-// ®Ú¾Ú®Ñ¦W¬d§ä®Ñ¥»
+// æ ¹æ“šæ›¸åæŸ¥æ‰¾æ›¸æœ¬
 Node* searchByName(Node* headNode, const char* bookName) {
     Node* currentNode = headNode->next;
     while (currentNode != NULL && strcmp(currentNode->data.name, bookName) != 0) {
@@ -114,11 +114,11 @@ Node* searchByName(Node* headNode, const char* bookName) {
     return currentNode;
 }
 
-// «O¦s®Ñ¥»«H®§¨ì¤å¥ó
+// ä¿å­˜æ›¸æœ¬è¨Šæ¯åˆ°æ–‡ä»¶
 void saveInfoToFile(const char* fileName, Node* headNode) {
     FILE* fp = fopen(fileName, "w");
     if (!fp) {
-        perror("µLªk¥´¶}¤å¥ó¶i¦æ¼g¤J");
+        perror("ç„¡æ³•æ‰“é–‹æ–‡ä»¶é€²è¡Œå¯«å…¥");
         return;
     }
 
@@ -131,14 +131,14 @@ void saveInfoToFile(const char* fileName, Node* headNode) {
     fclose(fp);
 }
 
-// ±q¤å¥óÅª¨ú®Ñ¥»«H®§
+// å¾æ–‡ä»¶è®€å–æ›¸æœ¬è¨Šæ¯
 void readInfoFromFile(const char* fileName, Node* headNode) {
     FILE* fp = fopen(fileName, "r");
     if (!fp) {
-        printf(">> ¤å¥ó¥¼§ä¨ì¡A³Ğ«Ø·s¤å¥ó\n");
+        printf(">> æ–‡ä»¶æœªæ‰¾åˆ°ï¼Œå‰µå»ºæ–°æ–‡ä»¶\n");
         fp = fopen(fileName, "w+");
         if (!fp) {
-            perror("µLªk³Ğ«Ø·s¤å¥ó");
+            perror("ç„¡æ³•å‰µå»ºæ–°æ–‡ä»¶");
             exit(EXIT_FAILURE);
         }
     }
@@ -151,23 +151,35 @@ void readInfoFromFile(const char* fileName, Node* headNode) {
     fclose(fp);
 }
 
-// Åã¥Ü¾Ş§@µæ³æ
-void displayMenu() {
-    printf("----------------------\n");
-    printf("¹Ï®ÑÀ]ºŞ²z¨t²Î\n");
-    printf("0. °h¥X¨t²Î\n");
-    printf("1. ·s¼W¹Ï®Ñ\n");
-    printf("2. ÂsÄı²{¦³¹Ï®Ñ\n");
-    printf("3. ­É®Ñ\n");
-    printf("4. ÁÙ®Ñ\n");
-    printf("5. §R°£¹Ï®Ñ\n");
-    printf("6. ¬d§ä¹Ï®Ñ\n");
-    printf("7. ±Æ§Ç¹Ï®Ñ\n"); 
-    printf("----------------------\n");
-    printf("½Ğ¿é¤J¡]0-7¡^¡G\n");
+// é‡‹æ”¾éˆè¡¨ä¸­çš„è¨˜æ†¶é«”
+void freeBookList(Node* headNode) {
+    Node* currentNode = headNode;
+    Node* tempNode;
+
+    while (currentNode != NULL) {
+        tempNode = currentNode;
+        currentNode = currentNode->next;
+        free(tempNode);
+    }
 }
 
-// ®Ú¾Ú¥Î¤á¿é¤J³B²z¾Ş§@
+// é¡¯ç¤ºæ“ä½œèœå–®
+void displayMenu() {
+    printf("----------------------\n");
+    printf("åœ–æ›¸é¤¨ç®¡ç†ç³»çµ±\n");
+    printf("0. é€€å‡ºç³»çµ±\n");
+    printf("1. æ–°å¢åœ–æ›¸\n");
+    printf("2. ç€è¦½ç¾æœ‰åœ–æ›¸\n");
+    printf("3. å€Ÿæ›¸\n");
+    printf("4. é‚„æ›¸\n");
+    printf("5. åˆªé™¤åœ–æ›¸\n");
+    printf("6. æŸ¥æ‰¾åœ–æ›¸\n");
+    printf("7. æ’åºåœ–æ›¸\n"); 
+    printf("----------------------\n");
+    printf("è«‹è¼¸å…¥ï¼ˆ0-7ï¼‰ï¼š\n");
+}
+
+// æ ¹æ“šç”¨æˆ¶è¼¸å…¥è™•ç†æ“ä½œ
 void handleUserInput(Node* headNode) {
     int userChoice = 0;
     Book tempBook;
@@ -177,88 +189,81 @@ void handleUserInput(Node* headNode) {
 
     switch (userChoice) {
     case 0:
-        printf("\n>> ¤w°h¥X¨t²Î\n\n");
+        printf("\n>> å·²é€€å‡ºç³»çµ±\n\n");
         exit(0);
         break;
     case 1:
-        printf("¡i ·s¼W¹Ï®Ñ ¡j\n½Ğ¿é¤J®ÑÄyªº¦WºÙ¡B»ù®æ¡B¼Æ¶q¡G");
+        printf("ã€ æ–°å¢åœ–æ›¸ ã€‘\nè«‹è¼¸å…¥æ›¸ç±çš„åç¨±ã€åƒ¹æ ¼ã€æ•¸é‡ï¼š");
         scanf("%s%f%d", tempBook.name, &tempBook.price, &tempBook.quantity);
         insertNodeByHead(headNode, tempBook);
         saveInfoToFile("bookinfo.txt", headNode);
-        printf("\n>> ·s¼W¦¨¥\\n");
+        printf("\n>> æ–°å¢æˆåŠŸ\n");
         break;
     case 2:
-        printf("¡i ÂsÄı²{¦³¹Ï®Ñ ¡j\n");
+        printf("ã€ ç€è¦½ç¾æœ‰åœ–æ›¸ ã€‘\n");
         printBookList(headNode);
         break;
     case 3:
-        printf("¡i ­É®Ñ ¡j\n½Ğ¿é¤J®Ñ¦W¡G");
+        printf("ã€ å€Ÿæ›¸ ã€‘\nè«‹è¼¸å…¥æ›¸åï¼š");
         scanf("%s", tempBook.name);
         result = searchByName(headNode, tempBook.name);
         if (!result) {
-            printf("\n>> µL¦¹®Ñ¥»\n\n");
+            printf("\n>> ç„¡æ­¤æ›¸æœ¬\n\n");
         } else if (result->data.quantity > 0) {
             result->data.quantity--;
-            printf("\n>> ­É®Ñ¦¨¥\\n");
+            printf("\n>> å€Ÿæ›¸æˆåŠŸ\n");
         } else {
-            printf("\n>> ®Ñ¥»µL®w¦s\n\n");
+            printf("\n>> æ›¸æœ¬ç„¡åº«å­˜\n\n");
         }
         break;
     case 4:
-        printf("¡i ÁÙ®Ñ ¡j\n½Ğ¿é¤J®Ñ¦W¡G");
+        printf("ã€ é‚„æ›¸ ã€‘\nè«‹è¼¸å…¥æ›¸åï¼š");
         scanf("%s", tempBook.name);
         result = searchByName(headNode, tempBook.name);
         if (!result) {
-            printf("\n>> ¦¹®Ñ¤£Äİ©ó¥»¹Ï®ÑÀ]\n\n");
+            printf("\n>> æ­¤æ›¸ä¸å±¬æ–¼æœ¬åœ–æ›¸é¤¨\n\n");
         } else {
             result->data.quantity++;
-            printf("\n>> ÁÙ®Ñ¦¨¥\\n\n");
+            printf("\n>> é‚„æ›¸æˆåŠŸ\n\n");
         }
         break;
     case 5:
-        printf("¡i §R°£®ÑÄy ¡j\n½Ğ¿é¤J®Ñ¦W¡G");
+        printf("ã€ åˆªé™¤æ›¸ç± ã€‘\nè«‹è¼¸å…¥æ›¸åï¼š");
         scanf("%s", tempBook.name);
         deleteNodeByName(headNode, tempBook.name);
         saveInfoToFile("bookinfo.txt", headNode);
         break;
     case 6:
-        printf("¡i ¬d§ä®ÑÄy ¡j\n½Ğ¿é¤J®Ñ¦W¡G");
+        printf("ã€ æŸ¥æ‰¾æ›¸ç± ã€‘\nè«‹è¼¸å…¥æ›¸åï¼š");
         scanf("%s", tempBook.name);
         result = searchByName(headNode, tempBook.name);
         if (!result) {
-            printf("\n>> ¥¼§ä¨ì®Ñ¥»\n\n");
+            printf("\n>> æ›¸æœ¬æœªæ‰¾åˆ°\n\n");
         } else {
-            printf("\n>> ¬d¸ß¦¨¥\\n®Ñ¦W\t»ù®æ\t¼Æ¶q\n");
-            printf("%s\t%.1f\t%d\n\n", result->data.name, result->data.price, result->data.quantity);
+            printf("æ›¸åï¼š%sï¼Œåƒ¹æ ¼ï¼š%.1fï¼Œæ•¸é‡ï¼š%d\n\n", result->data.name, result->data.price, result->data.quantity);
         }
         break;
-        printf("¡i ½Ğ¿é¤J¦³®Ä¼Æ¦r ¡j\n\n");
-        break;
     case 7:
-        printf("¡i ±Æ§Ç¹Ï®Ñ ¡j\n");
+        printf("ã€ æ’åºåœ–æ›¸ ã€‘\næŒ‰åƒ¹æ ¼æ’åºåœ–æ›¸\n");
         bubbleSortBookList(headNode);
         break;
     default:
-        printf("¡i ½Ğ¿é¤J¦³®Ä¼Æ¦r ¡j\n\n");
+        printf("\n>> ç„¡æ•ˆé¸é …ï¼Œè«‹é‡è©¦\n\n");
         break;
     }
 }
 
-// ¥D¨ç¼Æ
 int main() {
-    Node* bookList = createHeadNode(); // ªì©l¤Æ®Ñ¥»Ãìªí
-    readInfoFromFile("bookinfo.txt", bookList); // ±q¤å¥ó¤¤Åª¨ú¼Æ¾Ú
+    Node* bookList = createHeadNode(); // å‰µå»ºéˆè¡¨é ­ç¯€é»
+    readInfoFromFile("bookinfo.txt", bookList); // å¾æ–‡ä»¶è®€å–æ›¸æœ¬è¨Šæ¯
 
     while (1) {
-        displayMenu();  // Åã¥Üµæ³æ
-        handleUserInput(bookList);  // ³B²z¥Î¤á¿é¤J
-    	system("pause");  // ¼È°±±±¨î¥xÅã¥Ü
+        system("cls"); // æ¸…å±
+        displayMenu(); // é¡¯ç¤ºèœå–®
+        handleUserInput(bookList); // è™•ç†ç”¨æˆ¶è¼¸å…¥
+        system("pause"); // æš«åœï¼Œç­‰å¾…ç”¨æˆ¶è¼¸å…¥
+    }
 
-		system("cls");  // ²M°£±±¨î¥xÅã¥Ü
-	}
-
-	system("cls");  // µ{¦¡µ²§ô«e²M«Ì
-	
+    freeBookList(bookList); // é‡‹æ”¾éˆè¡¨å…§å­˜
     return 0;
 }
-
